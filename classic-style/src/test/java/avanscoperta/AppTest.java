@@ -6,7 +6,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class AppTest {
     @Test
-    public void shouldAnswerWithTrue() {
+    public void itWorks() {
         assertThat("a").isEqualTo("a");
     }
 }
