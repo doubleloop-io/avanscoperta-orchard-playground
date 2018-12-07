@@ -24,13 +24,6 @@ public class ItemResourceTest {
 
     @Autowired
     private TestRestTemplate template;
-//
-//    @Test
-//    public void itWorksGet() throws Exception {
-//        final URL url = new URL("http://localhost:" + port + "/items/");
-//        ResponseEntity<String> response = template.getForEntity(url.toString(), String.class);
-//        assertThat(response.getBody()).isEqualTo("ciao!");
-//    }
 
     private static HttpEntity<String> asHttpEntity(String json) {
         final HttpHeaders headers = new HttpHeaders();
