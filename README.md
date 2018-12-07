@@ -3,6 +3,8 @@
 
 # Aggregates
 
+Aggregates - the **Yellow** large sticky notes - are little state machines in our flow. They respond to a finite set of commands producing a well predictable output.
+
 
 ## Weird stuff
 
@@ -22,6 +24,14 @@ They start to look _grey_ in the IDE because they're unused. These apparently us
 Still, we need to pass them to the outside world in the Event, to make it avalable to some human being: software doesn't usually make decisions based on names, surnames and pictures, but humans do, so we need to make this information available to the users somehow.
 
 Something else is going to take care of it: the `Projection`.
+
+### Specific business logic
+
+Interesting example during a modelling session: _"An appointment shouldn't be rescheduled for more than 3 times"_.
+
+We might be tempted to add a counter inside the `Appointment` aggregate to block further attempts to reschedule a given one. ...but this might actually be a local _policy_ instead: an appointment can be in fact rescheduled indefinitely, but our rule will try to prevent this from happening.
+
+In practice, we'll have to meet somewhere in the middle, maybe have the aggregate allow a `blockRescheduling(...)` command, and have the business logic listen and count the instances of `AppointmentRescheduled`.
 
 ## Testing Aggregates
 Testing aggregates in a UnitTesting-like fashion is performed using an **Axon provided test fixture** which allows testing in a 
