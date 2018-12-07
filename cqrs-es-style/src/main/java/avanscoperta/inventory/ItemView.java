@@ -1,5 +1,6 @@
 package avanscoperta.inventory;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 
@@ -11,4 +12,5 @@ public class ItemView {
     private UUID itemId;
     private String name;
     private Integer quantity;
+    private Boolean isActive;
 }

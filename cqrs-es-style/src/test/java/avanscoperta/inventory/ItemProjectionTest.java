@@ -55,4 +55,23 @@ public class ItemProjectionTest {
         assertThat(list.get(1).getItemId()).isEqualTo(e2.getItemId());
         assertThat(list.get(2).getItemId()).isEqualTo(e3.getItemId());
     }
+
+    @Test
+    public void onlyActiveItems() {
+        final ItemCreated e1 = new ItemCreated(UUID.randomUUID(), "foo", 1);
+        final ItemCreated e2 = new ItemCreated(UUID.randomUUID(), "bar", 2);
+        final ItemCreated e3 = new ItemCreated(UUID.randomUUID(), "baz", 3);
+        final ItemDeactivated e4 = new ItemDeactivated(e2.getItemId());
+
+        projection.on(e1);
+        projection.on(e2);
+        projection.on(e3);
+        projection.on(e4);
+        final GetAllItems query = new GetAllItems();
+        query.setOnlyActiveItems(true);
+        final List<ItemView> list = projection.fetch(query);
+
+        assertThat(list.get(0).getItemId()).isEqualTo(e1.getItemId());
+        assertThat(list.get(1).getItemId()).isEqualTo(e3.getItemId());
+    }
 }
