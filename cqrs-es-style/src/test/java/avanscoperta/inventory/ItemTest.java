@@ -7,8 +7,6 @@ import org.junit.Test;
 
 import java.util.UUID;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 public class ItemTest {
 
     private FixtureConfiguration<Item> fixture;
@@ -28,13 +26,32 @@ public class ItemTest {
     }
 
     @Test
-    public void checkinQuantity() {
+    public void createNewItemWithNegativeQuantity() {
+        final UUID itemId = UUID.randomUUID();
+
+        fixture.givenNoPriorActivity()
+                .when(new CreateItem(itemId, "pen", -15))
+                .expectNoEvents()
+                .expectException(NegativeQuantityException.class);
+    }
+
+    @Test
+    public void checkInQuantity() {
         final UUID itemId = UUID.randomUUID();
 
         fixture.given(new ItemCreated(itemId, "pen", 10))
                 .when(new CheckInQuantity(itemId, 15))
-                .expectEvents(new QuantityCheckedIn(itemId,  15, 25))
-                .expectSuccessfulHandlerExecution();
+                .expectEvents(new QuantityCheckedIn(itemId, 15, 25));
+    }
+
+    @Test
+    public void checkInNegativeQuantity() {
+        final UUID itemId = UUID.randomUUID();
+
+        fixture.given(new ItemCreated(itemId, "pen", 10))
+                .when(new CheckInQuantity(itemId, -15))
+                .expectNoEvents()
+                .expectException(NegativeQuantityException.class);
     }
 
     @Test
@@ -42,7 +59,7 @@ public class ItemTest {
         final UUID itemId = UUID.randomUUID();
 
         fixture.given(new ItemCreated(itemId, "pen", 10),
-                      new QuantityCheckedIn(itemId,  15, 25))
+                new QuantityCheckedIn(itemId, 15, 25))
                 .when(new CheckOutQuantity(itemId, 5))
                 .expectEvents(new QuantityCheckedOut(itemId, 5, 20))
                 .expectSuccessfulHandlerExecution();
@@ -53,9 +70,19 @@ public class ItemTest {
         final UUID itemId = UUID.randomUUID();
 
         fixture.given(new ItemCreated(itemId, "pen", 10),
-                new QuantityCheckedIn(itemId,  15, 25))
+                new QuantityCheckedIn(itemId, 15, 25))
                 .when(new CheckOutQuantity(itemId, 105))
                 .expectNoEvents()
                 .expectException(OverCheckOutQuantityRequestedExecption.class);
+    }
+
+    @Test
+    public void deactivate() {
+        final UUID itemId = UUID.randomUUID();
+
+        fixture.given(new ItemCreated(itemId, "pen", 10))
+                .when(new DeactivateItem(itemId))
+                .expectEvents(new ItemDeactivated(itemId))
+                .expectSuccessfulHandlerExecution();
     }
 }
