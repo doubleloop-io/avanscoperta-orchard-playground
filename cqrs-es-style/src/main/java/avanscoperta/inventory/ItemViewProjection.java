@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class ItemProjection {
+public class ItemViewProjection {
 
     @Autowired
     private ItemViewRepository repository;

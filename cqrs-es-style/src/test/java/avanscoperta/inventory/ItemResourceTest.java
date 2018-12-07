@@ -1,6 +1,7 @@
 package avanscoperta.inventory;
 
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,18 +26,36 @@ public class ItemResourceTest {
     @Autowired
     private TestRestTemplate template;
 
+    @Autowired
+    private ItemViewRepository repository;
+
     private static HttpEntity<String> asHttpEntity(String json) {
         final HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         return new HttpEntity<>(json, headers);
     }
 
+    @Before
+    public void setUp() throws Exception {
+        repository.deleteAll();
+    }
+
+    @Test
+    public void noItems() throws Exception {
+        final ItemView[] response = template.getForObject(getItemsUrl(), ItemView[].class);
+        assertThat(response.length).isEqualTo(0);
+    }
+
     @Test
     public void postNewItem() throws Exception {
-
-        ResponseEntity<Void> response = template.
+        ResponseEntity<Void> postResponse = template.
                 postForEntity(postItemUrl(), asHttpEntity("{ \"name\":\"foo\", \"quantity\":42 }"), Void.class);
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
+        assertThat(postResponse.getStatusCode()).isEqualTo(HttpStatus.CREATED);
+
+        final ItemView[] getResponse = template.getForObject(getItemsUrl(), ItemView[].class);
+        assertThat(getResponse.length).isEqualTo(1);
+        assertThat(getResponse[0].getName()).isEqualTo("foo");
+        assertThat(getResponse[0].getQuantity()).isEqualTo(42);
     }
 
     @Test
@@ -54,6 +73,10 @@ public class ItemResourceTest {
     }
 
     private String postItemUrl() throws MalformedURLException {
+        return new URL("http://localhost:" + port + "/items/").toString();
+    }
+
+    private String getItemsUrl() throws MalformedURLException {
         return new URL("http://localhost:" + port + "/items/").toString();
     }
 }

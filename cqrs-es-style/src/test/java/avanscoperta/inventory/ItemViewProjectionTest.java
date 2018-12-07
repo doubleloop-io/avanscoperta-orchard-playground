@@ -15,13 +15,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class ItemProjectionTest {
+public class ItemViewProjectionTest {
 
     @Autowired
     private ItemViewRepository repository;
 
     @Autowired
-    private ItemProjection projection;
+    private ItemViewProjection projection;
 
     @Before
     public void setUp() throws Exception {

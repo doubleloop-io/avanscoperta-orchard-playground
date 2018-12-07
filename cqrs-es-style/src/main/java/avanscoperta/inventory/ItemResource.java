@@ -57,8 +57,7 @@ public class ItemResource {
     }
 
     @PostMapping("/")
-    public CompletableFuture<HttpEntity<Void>> addItem
-            (@Valid @RequestBody ItemResource.AddItemReq req) {
+    public CompletableFuture<HttpEntity<Void>> addItem(@Valid @RequestBody ItemResource.AddItemReq req) {
         final UUID itemId = UUID.randomUUID();
         return commandGateway.send(new CreateItem(itemId, req.name, req.quantity))
                 .thenApply(x -> ResponseEntity.created(buildLocation(itemId)).build());
