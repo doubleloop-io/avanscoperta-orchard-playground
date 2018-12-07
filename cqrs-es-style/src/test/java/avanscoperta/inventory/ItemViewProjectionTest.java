@@ -24,7 +24,7 @@ public class ItemViewProjectionTest {
     private ItemViewProjection projection;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         repository.deleteAll();
     }
 
