@@ -44,8 +44,16 @@ public class ItemResource {
 
     @GetMapping("/")
     CompletableFuture<HttpEntity<List<ItemView>>> allItems(@PageableDefault(size = 20) Pageable pageable) {
-        return queryGateway.query(new GetAllItems(), ResponseTypes.multipleInstancesOf(ItemView.class))
-                .thenApply(l -> ResponseEntity.ok(l));
+        return queryGateway.query(new GetItems(pageable), ResponseTypes.multipleInstancesOf(ItemView.class))
+                .thenApply(ResponseEntity::ok);
+    }
+
+    @GetMapping("/actives/")
+    CompletableFuture<HttpEntity<List<ItemView>>> allActiveItems(@PageableDefault(size = 20) Pageable pageable) {
+        final GetItems query = new GetItems(pageable);
+        query.setOnlyActiveItems(true);
+        return queryGateway.query(query, ResponseTypes.multipleInstancesOf(ItemView.class))
+                .thenApply(ResponseEntity::ok);
     }
 
     @PostMapping("/")
