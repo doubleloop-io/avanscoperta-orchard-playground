@@ -9,13 +9,13 @@ import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class InventoryTest {
+public class ItemTest {
 
-    private FixtureConfiguration<Inventory> fixture;
+    private FixtureConfiguration<Item> fixture;
 
     @Before
     public void setUp() throws Exception {
-        fixture = new AggregateTestFixture<>(Inventory.class);
+        fixture = new AggregateTestFixture<>(Item.class);
     }
 
     @Test

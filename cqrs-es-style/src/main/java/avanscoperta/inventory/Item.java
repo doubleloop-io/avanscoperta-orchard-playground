@@ -8,17 +8,17 @@ import java.util.UUID;
 
 import static org.axonframework.commandhandling.model.AggregateLifecycle.apply;
 
-public class Inventory {
+public class Item {
 
     @AggregateIdentifier
     private UUID itemId;
     private Integer currentQuantity;
 
-    public Inventory() {
+    public Item() {
     }
 
     @CommandHandler
-    public Inventory(CreateItem c) {
+    public Item(CreateItem c) {
         apply(new ItemCreated(c.getItemId(), c.getName(), c.getInitialQuantity()));
     }
 
