@@ -6,9 +6,17 @@
 Aggregates - the **Yellow** large sticky notes - are little state machines in our flow. They respond to a finite set of commands producing a well predictable output.
 
 
-## Weird stuff
+## Pros :-)
 
-### Two methods for every operation
+The state machine management should be really solid now.
+
+## Cons :-(
+
+
+
+## Weird stuff :-/
+
+### Two methods for every operation 
 
 Yep! We'll need to separate the guard logic (in the `@CommandHandler` part), from the state update logic.
 
@@ -40,6 +48,12 @@ Testing aggregates in a UnitTesting-like fashion is performed using an **Axon pr
 
 style.
 
+### Awkward stuff
+
+We're not peeking into the aggregate state with this Event-based testing style.
+
+This means that **WE CAN'T BE SURE ABOUT THE AGGRECATE STATE UNTIL WE TEST THE EFFECT** with more tests.
+
 # Projections
 
 This is where we turn the event flow into readable information for the reader. 
@@ -53,6 +67,13 @@ We don't need anything specific for testing projections.
 ## Cons
 We are expecting some _"ouch this is so boring!"_ feeling when dealing with projections.
 We moved the _descriptors_ outside of the aggregate logic, because there is no logic associated with the descriptors. 
+
+## Awkward stuff :-/
+Apparently we need a new data definition, _which looks like the old style entities, which are now the aggregates ...is that it?_
+
+In practice, if we have only one aggregate, and only one projection, ...we'll be writing more code. Things start to get interesting when the `*View` class starts getting different from the aggregate.
+
+Please keep in mind that the `View` is a decision support tool for human beings, that will need to decide upon a slightly different data set.
 
 ## Testing Projections
 
