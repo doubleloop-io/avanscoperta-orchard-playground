@@ -81,3 +81,13 @@ Testing projections happens in a different way, there is no specific framework s
 
 `given([events]).when(event).then([data])`.
 
+# Policies
+Policies span in complexity from human activities to simple _Listeners_ which can be essentially stateless - to more complex process managers and sagas.
+
+## Awkward Stuff
+Web resources can be contraddictory when describing _Sagas_ and _Process managers_, and we won't be able to correct the web. So expect some inconsistencies.
+
+## References
+The most interesting documentation for these patterns can be found in: **Enterprise Integration Patterns** from Gregor Hohpe and Bobby Woolf.
+
+
