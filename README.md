@@ -21,6 +21,9 @@ They start to look _grey_ in the IDE because they're unused.
 
 Still, we need to pass them to the outside world in the Event. Someone else is going to take care of it: the `Projection`.
 
+## Testing Aggregates
+Testing aggregates in a UnitTesting-like fashion is performed using an **Axon provided test fixture** which allows testing in a `given([events]).when(command).then([events])` style.
+
 # Projections
 
 This is where we turn the event flow into readable information for the reader. 
