@@ -18,12 +18,13 @@ public class ItemProjection {
         final ItemView view = new ItemView();
         view.setName(e.getName());
         view.setItemId(e.getItemId());
+        view.setQuantity(e.getInitialQuantity());
         repository.save(view);
     }
 
     @QueryHandler
     public List<ItemView> fetch(GetAllItems q) {
-       return repository.findAll();
+        return repository.findAll();
     }
 }
 
