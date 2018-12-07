@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
@@ -33,7 +34,7 @@ public class ItemProjectionTest {
         final ItemCreated e = new ItemCreated(itemId, "foo", 100);
 
         projection.on(e);
-        final List<ItemView> list = projection.fetch(new GetAllItems());
+        final List<ItemView> list = projection.fetch(new GetItems(Pageable.unpaged()));
 
         assertThat(list.get(0).getItemId()).isEqualTo(e.getItemId());
         assertThat(list.get(0).getName()).isEqualTo(e.getName());
@@ -49,7 +50,7 @@ public class ItemProjectionTest {
         projection.on(e1);
         projection.on(e2);
         projection.on(e3);
-        final List<ItemView> list = projection.fetch(new GetAllItems());
+        final List<ItemView> list = projection.fetch(new GetItems(Pageable.unpaged()));
 
         assertThat(list.get(0).getItemId()).isEqualTo(e1.getItemId());
         assertThat(list.get(1).getItemId()).isEqualTo(e2.getItemId());
@@ -67,7 +68,7 @@ public class ItemProjectionTest {
         projection.on(e2);
         projection.on(e3);
         projection.on(e4);
-        final GetAllItems query = new GetAllItems();
+        final GetItems query = new GetItems(Pageable.unpaged());
         query.setOnlyActiveItems(true);
         final List<ItemView> list = projection.fetch(query);
 

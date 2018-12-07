@@ -34,10 +34,9 @@ public class ItemProjection {
     }
 
     @QueryHandler
-    public List<ItemView> fetch(GetAllItems q) {
-        final List<ItemView> all = repository.findAll();
+    public List<ItemView> fetch(GetItems q) {
+        final List<ItemView> all = repository.findAll(q.getPageable()).getContent();
         if (!q.isOnlyActiveItems()) return all;
-
         return all.stream().filter(v -> v.getIsActive()).collect(Collectors.toList());
     }
 }
